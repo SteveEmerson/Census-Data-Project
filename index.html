@@ -5,13 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Census Data Project</title>
     <link rel="stylesheet" href="./census-data.css" />
+    <script type="text/javascript" src="node_modules/d3/dist/d3.js"></script>
   </head>
   <body>
-    <h1>Census Data</h1>
+    <h1>Estimated US Population by Month</h1>
+    <form action="">
+      <fieldset id="month-range-fields">
+        <legend>Date Range</legend>
+        <span>
+          <label for="start-month-select">Select a starting month</label>
+          <select
+            name="start"
+            id="start-month-select"
+            onchange="addEndDate()"
+          ></select>
+        </span>
+      </fieldset>
+      <fieldset id="variable-selection">
+        <legend>Optional Variables</legend>
+        <span>
+          <label for="">Select a variable to view:</label>
+          <input
+            type="radio"
+            name="variable"
+            id="none"
+            value="none"
+            checked="checked"
+          />
+          <label for="none">None</label>
+          <input type="radio" name="variable" id="sex" value="sex" />
+          <label for="sex">Sex</label>
+          <input type="radio" name="variable" id="age" value="age" />
+          <label for="age">Age</label>
+          <input
+            type="radio"
+            name="variable"
+            id="hisp-origin"
+            value="hisp-origin"
+          />
+          <label for="hisp-origin">Hispanic Origin</label>
+          <input type="radio" name="variable" id="race" value="race" />
+          <label for="race">Race</label>
+        </span>
+      </fieldset>
+      <div id="submit-button">
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+
     <div id="data-container">
       <table id="data-table"></table>
     </div>
-
+    <br />
+    <div id="chart-container"></div>
     <script src="./get-census-data.js"></script>
   </body>
 </html>
