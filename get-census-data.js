@@ -57,7 +57,7 @@ function getMonthlyPopEstimate(startMonth, endMonth, variable) {
     .then(response => response.json())
     .then((censusData) => {
       console.log(censusData)
-      let processedData = processData(censusData);  /* IS THIS WORKING ENTIRELY? */
+      let processedData = processData(censusData, variable);  /* IS THIS WORKING ENTIRELY? */
       //displayData(processedData);
       buildChart(processedData);
     })
@@ -186,7 +186,7 @@ function getPopData(formData){
 
 }
 
-function processData(data){
+function processData(data, variable){
 
   for(let i = 1; i < data.length; i++){
     data[i][0] = data[i][0].split(" ")[0];   //Remove extra text from the month label ... only need the date string
@@ -196,7 +196,7 @@ function processData(data){
   //console.log(data[1]);
 
   // if the first two population entries have the same date, remove the first
-  if (data.length >2 && data[1][0].getMonth() === data[2][0].getMonth()){
+  if (variable === "none" && data.length >2 && data[1][0].getMonth() === data[2][0].getMonth()){
     data.splice(1,1);
   }
 

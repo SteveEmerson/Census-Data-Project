@@ -11,5 +11,8 @@ body {
 }
 
 #submit-button {
-  text-align: center;
+  text-align: left;
+}
+
+#submit-button > button {
 }
