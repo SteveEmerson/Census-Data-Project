@@ -5,59 +5,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Census Data Project</title>
     <link rel="stylesheet" href="./census-data.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
     <script type="text/javascript" src="node_modules/d3/dist/d3.js"></script>
   </head>
   <body>
-    <h1>Estimated US Population by Month</h1>
-    <form action="">
-      <fieldset id="month-range-fields">
-        <legend>Date Range</legend>
-        <span>
-          <label for="start-month-select">Select a starting month</label>
-          <select
-            name="start"
-            id="start-month-select"
-            onchange="addEndDate()"
-          ></select>
-        </span>
-      </fieldset>
-      <fieldset id="variable-selection">
-        <legend>Optional Variables</legend>
-        <span>
-          <label for="">Select a variable to view:</label>
-          <input
-            type="radio"
-            name="variable"
-            id="none"
-            value="none"
-            checked="checked"
-          />
-          <label for="none">None</label>
-          <input type="radio" name="variable" id="sex" value="sex" />
-          <label for="sex">Sex</label>
-          <input type="radio" name="variable" id="age" value="age" />
-          <label for="age">Age</label>
-          <input
-            type="radio"
-            name="variable"
-            id="hisp-origin"
-            value="hisp-origin"
-          />
-          <label for="hisp-origin">Hispanic Origin</label>
-          <input type="radio" name="variable" id="race" value="race" />
-          <label for="race">Race</label>
-        </span>
-      </fieldset>
-      <div id="submit-button">
-        <button type="submit">Submit</button>
+    <div class="container-fluid" id="form-container">
+      <div class="row">
+        <div class="col"><h1>Estimated US Population by Month</h1></div>
       </div>
-    </form>
+      <div class="row">
+        <form class="col">
+          <!-- <fieldset id="month-range-fields">MOVED CONTENT TO DIV (BOOTSTRAP)</fieldset> -->
+          <div class="form-row" id="month-selects">
+            <legend class="col-auto">Date Range</legend>
+            <div class="col-auto">
+              <label for="start-month-select">Start</label>
+              <select
+                name="start"
+                class="form-control"
+                id="start-month-select"
+                onchange="addEndDate()"
+              ></select>
+            </div>
+          </div>
 
-    <div id="data-container">
-      <table id="data-table"></table>
+          <!-- <fieldset id="variable-selection">MOVED CONTENT TO DIV (BOOTSTRAP)</fieldset> -->
+          <fieldset class="form-group" id="variable-selection">
+            <div class="row">
+              <legend class="col-auto">Optional Variables</legend>
+              <div class="col-auto">
+                <div class="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    name="variable"
+                    class="form-check-input"
+                    id="none"
+                    value="none"
+                    checked
+                  />
+                  <label for="none" class="form-check-label">None</label>
+                </div>
+              </div>
+
+              <div class="col-auto">
+                <div class="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    name="variable"
+                    class="form-check-input"
+                    id="sex"
+                    value="sex"
+                    disabled
+                  />
+                  <label for="sex" class="form-check-label">Sex</label>
+                </div>
+              </div>
+
+              <div class="col-auto">
+                <div class="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    name="variable"
+                    class="form-check-input"
+                    id="age"
+                    value="age"
+                    disabled
+                  />
+                  <label for="age" class="form-check-label">Age</label>
+                </div>
+              </div>
+
+              <div class="col-auto">
+                <div class="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    name="variable"
+                    class="form-check-input"
+                    id="hisp-origin"
+                    value="hisp-origin"
+                    disabled
+                  />
+                  <label for="hisp-origin" class="form-check-label"
+                    >Hispanic Origin</label
+                  >
+                </div>
+              </div>
+
+              <div class="col-auto">
+                <div class="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    name="variable"
+                    class="form-check-input"
+                    id="race"
+                    value="race"
+                    disabled
+                  />
+                  <label for="race" class="form-check-label">Race</label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="row" id="submit-row">
+            <div class="col">
+              <button type="submit" class="btn btn-primary" id="submit-button">
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="row" id="chart-row">
+        <div class="col-10" id="chart-container"></div>
+        <div class="col-2" id="legend-container"></div>
+      </div>
+
+      <div class="row" id="data-container">
+        <table class="col" id="data-table"></table>
+      </div>
     </div>
-    <br />
-    <div id="chart-container"></div>
     <script src="./get-census-data.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

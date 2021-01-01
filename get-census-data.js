@@ -7,7 +7,7 @@
 */
 
 // Get the containers
-let chartContainer = document.querySelector("#chart-container");
+
 let dataContainer = document.querySelector('#data-container');
 let dataTable = document.querySelector('#data-table');
 
@@ -128,25 +128,28 @@ function getLabels(dataVar){
 // add end month select and options
 function addEndDate(e) {
 
-  let monthRangeFields = document.querySelector("#month-range-fields");
+  let monthSelects = document.querySelector("#month-selects");
+
   let startMonthSelect = document.querySelector("#start-month-select");
   let startMonth = Number(startMonthSelect.value);
-
+  console.log(startMonth);
+  
   if(startMonth !== 0){
-
     let endMonthSelect;
-    let endMonthSpan;
+    let endMonthDiv;
 
-    if(monthRangeFields.childElementCount > 2){
-      endMonthSpan = monthRangeFields.lastElementChild;
-      endMonthSelect = endMonthSpan.lastElementChild;
+    if(monthSelects.childElementCount > 2){
+      endMonthDiv = monthSelects.lastElementChild;
+      endMonthSelect = endMonthDiv.lastElementChild;
       while(endMonthSelect.lastElementChild){
         endMonthSelect.remove(endMonthSelect.lastElementChild);
       }
     }else{
-      endMonthSpan = document.createElement("span");
-      endMonthSpan.innerHTML = '<label for="end-month-select">Select an ending month</label>';
+      endMonthDiv = document.createElement("div");
+      endMonthDiv.className = "col-auto"
+      endMonthDiv.innerHTML = '<label for="end-month-select">End</label>';
       endMonthSelect = document.createElement("select");
+      endMonthSelect.className = "form-control";
       endMonthSelect.id = "end-month-select"
       endMonthSelect.name = "end";
     }
@@ -158,16 +161,18 @@ function addEndDate(e) {
       endMonthSelect.appendChild(dateOption);
     }
 
-    endMonthSpan.appendChild(endMonthSelect);
-    monthRangeFields.appendChild(endMonthSpan);
+    endMonthDiv.appendChild(endMonthSelect);
+    monthSelects.appendChild(endMonthDiv);
 
   }else{
-    while(monthRangeFields.childElementCount > 2){
-      monthRangeFields.removeChild(monthRangeFields.lastElementChild);
+    while(monthSelects.childElementCount > 2){
+      monthSelects.removeChild(monthSelects.lastElementChild);
     }
   }
-
+    
 }
+
+
 
 function getPopData(formData){
 
@@ -282,6 +287,7 @@ function buildRow(data, month){
 
 //Use d3 to build a bar chart
 function buildChart(dataset){
+  let chartContainer = document.querySelector("#chart-container");
 
   while(chartContainer.firstElementChild){
     chartContainer.removeChild(chartContainer.firstElementChild);
@@ -308,16 +314,16 @@ function buildChart(dataset){
 
   console.log(minPop + " " + maxPop)
 
-    // get the min and max date value
+  // get the min and max date value
   let maxDate = d3.max(datedata, d => d);
   let minDate = d3.min(datedata, d => d);
   
   console.log(minDate + " to " + maxDate);
 
-  let chartWidth = 800;
+  let chartWidth = chartContainer.clientWidth;
+  let chartHeight = chartContainer.clientHeight;
   let margin = {top: 40, right: 20, bottom:20, left: 60}
-  let chartHeight = 300;
-  let skewDiff = 0.99  // 0 (absolute) to 1 (relative to range)
+  let skewDiff = 0  // 0 (absolute) to 1 (relative to range)
 
   //chart svg elemen
   let svgBarChart = d3
@@ -389,7 +395,7 @@ function buildChart(dataset){
 
     //chart title
     svgBarChart.append("text")
-      .text("Monthly Population Estimate")
+      .text(`US Population ${dateFormat(minDate)} to ${dateFormat(maxDate)}`)
       .attr("text-anchor", "middle")
       .attr("x", chartWidth/2)
       .attr("y", margin.top/2);
