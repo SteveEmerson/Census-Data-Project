@@ -1,3 +1,3 @@
 # Census Data Project
-
-Scope and end goals TBD
+## Exploring the US Census API
+Work in Progress
